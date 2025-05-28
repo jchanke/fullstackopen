@@ -1,0 +1,29 @@
+{
+  "persons": [
+    {
+      "id": "6ca9",
+      "name": "Arto Hellas",
+      "number": "040-123456"
+    },
+    {
+      "id": "22b8",
+      "name": "Ada Lovelace",
+      "number": "39-44-5323523"
+    },
+    {
+      "id": "ce21",
+      "name": "Dan Abramov",
+      "number": "12-43-234345"
+    },
+    {
+      "id": "f069",
+      "name": "Mary Poppendieck",
+      "number": "39-23-6423122"
+    },
+    {
+      "id": "699f",
+      "name": "Juha Tauriainen",
+      "number": "123-456-7890"
+    }
+  ]
+}
