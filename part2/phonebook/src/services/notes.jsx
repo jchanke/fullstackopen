@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const SERVER_BASE_URL = 'http://localhost:3001/persons'
+const SERVER_BASE_URL = '/api/persons'
 
 const getAll = () => {
   return axios

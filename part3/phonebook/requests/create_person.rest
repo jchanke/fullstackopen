@@ -1,0 +1,38 @@
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Juha Tauriainen",
+  "number": "123-456-7890"
+}
+
+// What happens if there's no body?
+###
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+###
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json 
+
+{
+  "name": "Juha Tauriainen"
+}
+
+###
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json 
+
+{
+  "number": "123-456-7890"
+}
+
+// What happens if we try to create a duplicate person?
+###
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Arto Hellas",
+  "number": "040-123456"
+}
