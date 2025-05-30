@@ -11,14 +11,14 @@ if (argc !== 2 && argc !== 4) {
 }
 
 const Person = require('./models/people')
-if (argc == 2) {
+if (argc === 2) {
   Person.find({})
     .then(persons =>
       persons.forEach(person => {
         console.log(`${person.id} ${person.name} ${person.number}`)
       })
     )
-} else if (argc == 4) {
+} else if (argc === 4) {
   const name = process.argv[2]
   const number = process.argv[3]
   const newPerson = new Person({ name, number })

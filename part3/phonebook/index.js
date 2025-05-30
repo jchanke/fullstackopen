@@ -7,7 +7,7 @@ app.use(express.static('dist'))
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :req-body'))
 
-PORT = process.env.PORT
+const PORT = process.env.PORT
 
 app.get('/info', (request, response, next) => {
   const requestTime = new Date(Date.now()).toString()
@@ -21,7 +21,7 @@ app.get('/info', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.get('/api/persons', (request, response, next) => {
+app.get('/api/persons', (_request, response, next) => {
   Person.find({})
     .then(persons => {
       response.json(persons)
@@ -66,7 +66,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(_result => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -95,9 +95,9 @@ app.listen(PORT, () => {
 })
 
 // Logging functionality - using morgan
-morgan.token('req-body', (request, response) => {
+morgan.token('req-body', (request, _response) => {
   if (request.method && ['POST', 'PUT'].includes(request.method)) {
     return JSON.stringify(request.body)
   }
-  return ""
+  return ''
 })
