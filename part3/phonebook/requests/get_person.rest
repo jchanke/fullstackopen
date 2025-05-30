@@ -1,5 +1,5 @@
-# Retrieve the person with id=1
-GET http://localhost:3001/api/persons/1
+# Retrieve the person with id=683915c05ab02e01c621272e
+GET http://localhost:3001/api/persons/683915c05ab02e01c621272e
 
 ###
 # What happens if a person with the id doesn't exist?

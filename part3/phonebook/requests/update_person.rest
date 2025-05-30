@@ -1,0 +1,17 @@
+PUT http://localhost:3001/api/persons/683915c05ab02e01c621272e HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Ada Lovelace",
+  "number": "39-44-5323523"
+}
+
+// What happens if the person doesn't exist?
+###
+PUT http://localhost:3001/api/persons/bad_id HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Ada Lovelace",
+  "number": "39-44-5323523"
+}
