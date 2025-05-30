@@ -5,7 +5,7 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Notification from './components/Notification'
 
-import noteService from './services/notes'
+import personService from './services/person'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -38,28 +38,28 @@ const App = () => {
   }
 
   const addPerson = (newPerson) => {
-    noteService
+    personService
       .create(newPerson)
       .then(person => {
         setPersons(persons.concat(person))
         displaySucess(`Added ${person.name}`)
       })
-      .catch(error => console.err(error))
+      .catch(error => displayError(error.response.data.error))
   }
 
   const removePerson = (id) => {
-    noteService
+    personService
       .remove(id)
       .then(_ => {
         const name = persons.find(p => p.id === id).name
         displaySucess(`Removed ${name}`)
         setPersons(persons.filter(person => person.id !== id))
       })
-      .catch(error => console.err(error))
+      .catch(error => displayError(error.response.data.error))
   }
 
   const updatePerson = (id, newPerson) => {
-    noteService
+    personService
       .update(id, newPerson)
       .then(updated => {
         setPersons(persons.map(p => p.name === updated.name ? updated : p))
@@ -88,10 +88,10 @@ const App = () => {
   }
 
   useEffect(() => {
-    noteService
+    personService
       .getAll()
       .then(newPersons => setPersons(newPersons))
-      .catch(error => console.err(error))
+      .catch(error => displayError(error.response.data.error))
   }, [])
 
   return (
