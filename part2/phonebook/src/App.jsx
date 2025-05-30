@@ -50,7 +50,7 @@ const App = () => {
   const removePerson = (id) => {
     personService
       .remove(id)
-      .then(_ => {
+      .then(_result => {
         const name = persons.find(p => p.id === id).name
         displaySucess(`Removed ${name}`)
         setPersons(persons.filter(person => person.id !== id))
@@ -65,17 +65,17 @@ const App = () => {
         setPersons(persons.map(p => p.name === updated.name ? updated : p))
         displaySucess(`Updated number of ${updated.name}`)
       })
-      .catch(_ => displayError(`${newPerson.name} was already removed from server`)
+      .catch(_result => displayError(`${newPerson.name} was already removed from server`)
       )
   }
 
   const displaySucess = (message) => {
-    setNotification(message);
+    setNotification(message)
     setIsError(false)
     setTimeout(() => {
       setNotification(null)
       setIsError(null)
-    }, 5000);
+    }, 5000)
   }
 
   const displayError = (message) => {
@@ -84,7 +84,7 @@ const App = () => {
     setTimeout(() => {
       setNotification(null)
       setIsError(null)
-    }, 5000);
+    }, 5000)
   }
 
   useEffect(() => {

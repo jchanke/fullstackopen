@@ -3,7 +3,7 @@ const Notification = ({ message, isError }) => {
     return null
   }
   const notificationStyle = {
-    color: isError ? "red" : "green",
+    color: isError ? 'red' : 'green',
   }
   return (
     <div className='notification' style={notificationStyle}>
