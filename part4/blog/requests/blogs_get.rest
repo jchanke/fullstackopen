@@ -1,0 +1,10 @@
+// Get all blogs
+GET http://localhost:3003/api/blogs
+
+// Get blogs by id
+###
+GET http://localhost:3003/api/blogs/6839f2b02f6ab2870d1ae619
+
+// How about if id doesn't exist? valid -> 404, invalid -> 400
+###
+GET http://localhost:3003/api/blogs/bad_id

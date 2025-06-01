@@ -1,0 +1,28 @@
+// Login - correct credentials
+POST http://localhost:3003/api/login
+Content-Type: application/json 
+
+{
+  "username": "mluukkai",
+  "password": "mluukkai"
+}
+
+// Login - invalid credentials
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json 
+
+{
+  "username": "mluukkai",
+  "password": "wrong password"
+}
+
+// Login - user doesn't exist
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json 
+
+{
+  "username": "ggalilei",
+  "password": "ggalilei"
+}
