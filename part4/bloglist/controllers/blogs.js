@@ -38,6 +38,22 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   response.status(201).json(newBlogObject)
 })
 
+blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
+  if (!request.user) {
+    return response.status(401).json({ error: 'userId missing or not valid' })
+  }
+
+  const id = request.params.id
+  const existingBlog = await Blog.findById(id)
+  if (!existingBlog) {
+    return response.status(404).json({ error: `blog with id ${request.body.id} not found` })
+  }
+
+  const updatedBlog = request.body
+  const returnedBlog = await Blog.findByIdAndUpdate(id, updatedBlog)
+  response.status(201).json(returnedBlog)
+})
+
 blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
   const user = request.user
   const blog = await Blog.findById(request.params.id)
