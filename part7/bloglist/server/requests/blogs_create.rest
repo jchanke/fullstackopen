@@ -1,0 +1,47 @@
+// Create a new blog
+POST http://localhost:3003/api/blogs HTTP/1.1
+content-type: application/json
+
+{
+  "title": "all about turing machines",
+  "author": "Alan Turing",
+  "url": "/all-about-turing-machines.html",
+  "likes": "42"
+}
+
+###
+POST http://localhost:3003/api/blogs HTTP/1.1
+content-type: application/json
+
+{
+  "title": "lambda go brrr",
+  "author": "Alonzo Church",
+  "url": "/lambda-go-brrr.html",
+  "likes": "101"
+}
+
+// What happens if it's missing some fields?
+###
+POST http://localhost:3003/api/blogs HTTP/1.1
+content-type: application/json
+
+{
+  "author": "Alan Turing",
+  "url": "/all-about-turing-machines.html",
+  "likes": "42"
+}
+###
+POST http://localhost:3003/api/blogs HTTP/1.1
+content-type: application/json
+
+{
+  "title": "all about turing machines",
+  "url": "/all-about-turing-machines.html",
+  "likes": "42"
+}
+
+###
+POST http://localhost:3003/api/blogs HTTP/1.1
+content-type: application/json
+
+{ }
