@@ -8,7 +8,7 @@ describe("<BlogForm/ >", () => {
 
   test("calls `tryCreateBlog` with right parameters", async () => {
     const { container } = render(
-      <BlogForm toggleVisibility={toggleVisibility} />
+      <BlogForm toggleVisibility={toggleVisibility} />,
     );
 
     const user = userEvent.setup();

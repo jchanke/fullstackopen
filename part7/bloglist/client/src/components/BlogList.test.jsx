@@ -1,7 +1,6 @@
 import { describe, test, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Blog from "./Blog";
 
 describe("<Blog />", () => {
   const blog = {
@@ -22,7 +21,7 @@ describe("<Blog />", () => {
         incrLikes={incrLikes}
         tryDeleteBlog={tryDeleteBlog}
         canDeleteBlog={false}
-      />,
+      />
     );
 
     expect(screen.queryByText(`${blog.title}`)).toBeDefined();
@@ -38,7 +37,7 @@ describe("<Blog />", () => {
         incrLikes={incrLikes}
         tryDeleteBlog={tryDeleteBlog}
         canDeleteBlog={false}
-      />,
+      />
     );
 
     const user = userEvent.setup();
@@ -57,7 +56,7 @@ describe("<Blog />", () => {
         incrLikes={incrLikes}
         tryDeleteBlog={tryDeleteBlog}
         canDeleteBlog={false}
-      />,
+      />
     );
 
     const user = userEvent.setup();
@@ -79,7 +78,7 @@ describe("<Blog />", () => {
         incrLikes={incrLikes}
         tryDeleteBlog={tryDeleteBlog}
         canDeleteBlog={false}
-      />,
+      />
     );
 
     const user = userEvent.setup();
@@ -97,7 +96,7 @@ describe("<Blog />", () => {
         incrLikes={incrLikes}
         tryDeleteBlog={tryDeleteBlog}
         canDeleteBlog={true}
-      />,
+      />
     );
 
     const user = userEvent.setup();
