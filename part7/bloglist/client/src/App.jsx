@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import BlogList from "./components/BlogList";
@@ -7,8 +7,6 @@ import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
 
-import { displayInfo, displayError } from "./reducers/notificationReducer";
-import { createBlog } from "./reducers/blogsReducer";
 import { clearUser, getUserTokenIfExists, USER } from "./reducers/userReducer";
 
 const App = () => {
@@ -23,21 +21,6 @@ const App = () => {
     window.localStorage.removeItem(USER);
     dispatch(clearUser());
   };
-
-  const tryCreateBlog = async ({ title, author, url }) => {
-    try {
-      await dispatch(createBlog({ title, author, url }));
-      dispatch(displayInfo(`a new blog ${title} by ${author} added`));
-      blogFormRef.current.toggleVisibility();
-      return true;
-    } catch (error) {
-      dispatch(displayError("unable to create blog"));
-      console.error("unable to create blog:", error.message);
-      return false;
-    }
-  };
-
-  const blogFormRef = useRef();
 
   if (!user) {
     return (
@@ -58,8 +41,8 @@ const App = () => {
         <button onClick={handleLogout}>logout</button>
       </p>
 
-      <Togglable buttonLabel="new note" ref={blogFormRef}>
-        <BlogForm tryCreateBlog={tryCreateBlog} />
+      <Togglable buttonLabel="new note">
+        {(props) => <BlogForm {...props} />}
       </Togglable>
       <BlogList />
     </div>

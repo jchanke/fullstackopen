@@ -5,11 +5,34 @@ import PropTypes from "prop-types";
 import { displayInfo, displayError } from "../reducers/notificationReducer";
 import { deleteBlogById, fetchBlogs, voteFor } from "../reducers/blogsReducer";
 
-const Blog = ({ blog, canDeleteBlog }) => {
+const BlogList = () => {
   const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs);
+
+  useEffect(() => {
+    dispatch(fetchBlogs());
+  }, []);
+
+  return (
+    <>
+      {[...blogs]
+        .sort((a, b) => b.likes - a.likes) // sort desc. by likes
+        .map((blog) => (
+          <Blog key={blog.id} blog={blog} />
+        ))}
+    </>
+  );
+};
+
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleIsExpanded = () => setIsExpanded(!isExpanded);
+
+  const canDeleteBlog = blog.user.username === user.username;
 
   const blogStyle = {
     paddingTop: 10,
@@ -28,15 +51,14 @@ const Blog = ({ blog, canDeleteBlog }) => {
       dispatch(deleteBlogById(blog.id));
       dispatch(displayInfo(`deleted blog '${blog.title}'`));
     } catch (error) {
-      const errorMessage = `unable to delete blog created by ${blog.user.name}`;
+      const errorMessage = `unable to delete blog created by ${blog.user.name}, ${error.message}`;
       dispatch(displayError(errorMessage));
-      console.error("unable to delete blog", error.message);
     }
   };
 
   const handleVote = async (event) => {
     event.preventDefault();
-    await dispatch(voteFor(blog));
+    dispatch(voteFor(blog));
   };
 
   return (
@@ -63,26 +85,6 @@ const Blog = ({ blog, canDeleteBlog }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  canDeleteBlog: PropTypes.bool.isRequired,
-};
-
-const BlogList = () => {
-  const dispatch = useDispatch();
-  const blogs = useSelector(({ blogs }) => blogs);
-
-  useEffect(() => {
-    dispatch(fetchBlogs());
-  }, []);
-
-  return (
-    <>
-      {[...blogs]
-        .sort((a, b) => b.likes - a.likes) // sort desc. by likes
-        .map((blog) => (
-          <Blog key={blog.id} blog={blog} canDeleteBlog={true} />
-        ))}
-    </>
-  );
 };
 
 export default BlogList;

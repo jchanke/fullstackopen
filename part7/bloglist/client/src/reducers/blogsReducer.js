@@ -49,8 +49,8 @@ export const deleteBlogById = (id) => {
 export const voteFor = (blog) => {
   return async (dispatch) => {
     const newBlog = { ...blog, likes: blog.likes + 1 };
-    await blogService.updateBlog(blog.id, newBlog);
-    dispatch(updateBlog(newBlog));
+    const savedBlog = await blogService.updateBlog(blog.id, newBlog);
+    dispatch(updateBlog(savedBlog));
   };
 };
 

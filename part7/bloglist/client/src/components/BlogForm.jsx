@@ -1,20 +1,31 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-const BlogForm = ({ tryCreateBlog }) => {
+import { createBlog } from "../reducers/blogsReducer";
+import { displayInfo, displayError } from "../reducers/notificationReducer";
+
+const BlogForm = ({ toggleVisibility }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
-  const handleCreateBlogSubmit = (event) => {
-    event.preventDefault();
+  const dispatch = useDispatch();
 
-    const createBlogSuccess = tryCreateBlog({ title, author, url });
-    if (createBlogSuccess) {
-      setTitle("");
-      setAuthor("");
-      setUrl("");
+  const handleCreateBlogSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await dispatch(createBlog({ title, author, url }));
+    } catch (error) {
+      dispatch(displayError("unable to create blog"));
+      console.error("unable to create blog:", error.message);
+      return;
     }
+    dispatch(displayInfo(`a new blog ${title} by ${author} added`));
+    toggleVisibility();
+    setTitle("");
+    setAuthor("");
+    setUrl("");
   };
 
   return (
@@ -55,7 +66,7 @@ const BlogForm = ({ tryCreateBlog }) => {
 };
 
 BlogForm.propTypes = {
-  tryCreateBlog: PropTypes.func.isRequired,
+  toggleVisibility: PropTypes.func.isRequired,
 };
 
 export default BlogForm;
