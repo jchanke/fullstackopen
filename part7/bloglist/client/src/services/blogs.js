@@ -7,36 +7,33 @@ const setToken = (newToken) => {
   token = `Bearer ${newToken}`;
 };
 
+const getById = async (id) => {
+  console.log(typeof id);
+  const response = await axios.get(`${baseUrl}/${id}`);
+  return response.data;
+};
+
 const getAll = async () => {
   const response = await axios.get(baseUrl);
   return response.data;
 };
 
 const create = async (newBlog) => {
-  const config = {
-    headers: { Authorization: token },
-  };
+  const config = { headers: { Authorization: token } };
   const response = await axios.post(baseUrl, newBlog, config);
   return response.data;
 };
 
-const updateBlog = async (id, updatedBlog) => {
-  const config = {
-    headers: { Authorization: token },
-  };
-  const blogToSend = {
-    ...updatedBlog,
-    user: updatedBlog.user.id,
-  };
+const update = async ({ id, updatedBlog }) => {
+  const config = { headers: { Authorization: token } };
+  const blogToSend = { ...updatedBlog, user: updatedBlog.user.id };
   const response = await axios.put(`${baseUrl}/${id}`, blogToSend, config);
   return response.data;
 };
 
 const deleteBlog = async (id) => {
-  const config = {
-    headers: { Authorization: token },
-  };
+  const config = { headers: { Authorization: token } };
   await axios.delete(`${baseUrl}/${id}`, config);
 };
 
-export default { getAll, create, updateBlog, deleteBlog, setToken };
+export default { getById, getAll, create, update, deleteBlog, setToken };
