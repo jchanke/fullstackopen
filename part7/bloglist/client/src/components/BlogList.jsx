@@ -5,7 +5,7 @@ import {
   useBlogIds,
   useBlog,
   useDeleteBlog,
-  useUpdateBlog,
+  useLikeBlog,
 } from "../queries/blogs";
 import { useNotification } from "../contexts/NotificationContext";
 import { useUser } from "../contexts/UserContext";
@@ -33,7 +33,7 @@ export const Blog = ({ id }) => {
   const { user } = useUser();
   const notification = useNotification();
 
-  const updateBlog = useUpdateBlog();
+  const likeBlog = useLikeBlog();
   const deleteBlog = useDeleteBlog();
 
   const blogQuery = useBlog(id);
@@ -57,9 +57,7 @@ export const Blog = ({ id }) => {
 
   const handleLike = (event) => {
     event.preventDefault();
-    const updatedBlog = { ...blog, likes: blog.likes + 1 };
-    updateBlog.mutate({ id: blog.id, updatedBlog });
-    notification.info(`voted for '${blog.title}'`);
+    likeBlog.mutate(blog);
   };
 
   const handleDelete = (event) => {

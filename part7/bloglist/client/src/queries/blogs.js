@@ -12,10 +12,6 @@ export const useBlogsQuery = (select) => {
   });
 };
 
-export const useBlogsSorted = () => {
-  return useBlogsQuery((blogs) => blogs.sort((a, b) => b.likes - a.likes));
-};
-
 export const useBlogIds = () => {
   return useBlogsQuery((blogs) =>
     blogs.sort((a, b) => b.likes - a.likes).map((blog) => blog.id)
@@ -51,7 +47,27 @@ export const useUpdateBlog = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: blogService.update,
-    onSuccess: ({ id }) =>
-      queryClient.invalidateQueries({ queryKey: ["blogs", id] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["blogs"] }),
+  });
+};
+
+export const useLikeBlog = () => {
+  const queryClient = useQueryClient();
+  const likeBlog = (blog) => ({ ...blog, likes: blog.likes + 1 });
+  const mutationFn = (blog) => {
+    return blogService.update({ id: blog.id, updatedBlog: likeBlog(blog) });
+  };
+  return useMutation({
+    onMutate: async (blog) => {
+      await queryClient.cancelQueries({ queryKey: ["blogs", blog.id] });
+      queryClient.setQueryData(["blogs", blog.id], likeBlog);
+    },
+    mutationFn,
+    onSuccess: (newBlog) => {
+      queryClient.invalidateQueries({ queryKey: ["blogs", newBlog.id] });
+      queryClient.setQueryData(["blogs"], (blogs) =>
+        blogs.map((blog) => (blog.id === newBlog.id ? newBlog : blog))
+      );
+    },
   });
 };
