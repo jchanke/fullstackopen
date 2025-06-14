@@ -12,6 +12,10 @@ export const useBlogsQuery = (select) => {
   });
 };
 
+export const useBlogs = () => {
+  return useBlogsQuery((blogs) => blogs.sort((a, b) => b.likes - a.likes));
+};
+
 export const useBlogIds = () => {
   return useBlogsQuery((blogs) =>
     blogs.sort((a, b) => b.likes - a.likes).map((blog) => blog.id)
@@ -59,15 +63,12 @@ export const useLikeBlog = () => {
   };
   return useMutation({
     onMutate: async (blog) => {
-      await queryClient.cancelQueries({ queryKey: ["blogs", blog.id] });
-      queryClient.setQueryData(["blogs", blog.id], likeBlog);
+      await queryClient.cancelQueries({ queryKey: ["blogs"] });
       queryClient.setQueryData(["blogs"], (blogs) =>
         blogs.map((b) => (b.id === blog.id ? likeBlog(blog) : b))
       );
     },
     mutationFn,
-    onSuccess: (newBlog) => {
-      queryClient.invalidateQueries({ queryKey: ["blogs", newBlog.id] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["blogs"] }),
   });
 };

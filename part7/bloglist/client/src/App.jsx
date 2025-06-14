@@ -1,15 +1,18 @@
 import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
-import BlogList from "./components/BlogList";
-import Notification from "./components/Notification";
+import Blog from "./components/Blog.jsx";
+import Home from "./components/Home";
 import LoginForm from "./components/LoginForm";
-import BlogForm from "./components/BlogForm";
-import Togglable from "./components/Togglable";
+import NavBar from "./components/NavBar.jsx";
+import Notification from "./components/Notification";
+import User from "./components/User.jsx";
+import Users from "./components/Users";
 
-import { useUser, USER } from "./contexts/UserContext";
+import { useCurrentUser, USER } from "./contexts/UserContext";
 
 const App = () => {
-  const { user, setUser, clearUser } = useUser();
+  const { user, setUser } = useCurrentUser();
 
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem(USER);
@@ -22,6 +25,7 @@ const App = () => {
   if (!user) {
     return (
       <div>
+        <NavBar />
         <h2>log in to application</h2>
         <Notification />
         <LoginForm />
@@ -30,18 +34,17 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h2>blogs</h2>
+    <>
+      <NavBar />
+      <h2>blog app</h2>
       <Notification />
-      <p>
-        {user.name} logged in
-        <button onClick={clearUser}>logout</button>
-      </p>
-      <Togglable buttonLabel="new note">
-        {(props) => <BlogForm {...props} />}
-      </Togglable>
-      <BlogList />
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<User />} />
+        <Route path="/blogs/:id" element={<Blog />} />
+      </Routes>
+    </>
   );
 };
 

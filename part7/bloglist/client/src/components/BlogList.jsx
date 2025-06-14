@@ -1,47 +1,36 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import {
-  useBlogIds,
-  useBlog,
-  useDeleteBlog,
-  useLikeBlog,
-} from "../queries/blogs";
+import { useBlogs, useDeleteBlog, useLikeBlog } from "../queries/blogs";
 import { useNotification } from "../contexts/NotificationContext";
-import { useUser } from "../contexts/UserContext";
+import { useCurrentUser } from "../contexts/UserContext";
 
 const BlogList = () => {
-  const blogIdsQuery = useBlogIds();
+  const blogsQuery = useBlogs();
 
-  if (blogIdsQuery.isError) return `Error: ${blogIdsQuery.error}`;
-  if (blogIdsQuery.isPending) return "Loading blogs...";
+  if (blogsQuery.isError) return `Error: ${blogsQuery.error}`;
+  if (blogsQuery.isPending) return "Loading blogs...";
 
-  const blogIds = blogIdsQuery.data;
+  const blogIds = blogsQuery.data;
 
   return (
     <>
-      {blogIds.map((id) => (
-        <Blog key={id} id={id} />
+      {blogIds.map((blog) => (
+        <BlogListing key={blog.id} blog={blog} />
       ))}
     </>
   );
 };
 
-export const Blog = ({ id }) => {
+export const BlogListing = ({ blog }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { user } = useUser();
+  const { user } = useCurrentUser();
   const notification = useNotification();
 
   const likeBlog = useLikeBlog();
   const deleteBlog = useDeleteBlog();
-
-  const blogQuery = useBlog(id);
-
-  if (blogQuery.isError) return `Error: ${blogQuery.error}`;
-  if (blogQuery.isPending) return "Loading blog...\n";
-
-  const blog = blogQuery.data;
 
   const canDeleteBlog = user.username === blog.user.username;
 
@@ -77,7 +66,7 @@ export const Blog = ({ id }) => {
   return (
     <div style={blogStyle} className="blog">
       <>
-        {blog.title} {blog.author}
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> {blog.author}
         <button onClick={toggleIsExpanded}>
           {isExpanded ? "hide" : "view"}
         </button>
@@ -96,8 +85,8 @@ export const Blog = ({ id }) => {
   );
 };
 
-Blog.propTypes = {
-  id: PropTypes.string.isRequired,
+BlogListing.propTypes = {
+  blog: PropTypes.object.isRequired,
 };
 
 export default BlogList;

@@ -44,7 +44,7 @@ UserContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export const useUser = () => {
+export const useCurrentUser = () => {
   return useContext(UserContext);
 };
 

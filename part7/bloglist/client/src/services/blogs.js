@@ -8,7 +8,6 @@ const setToken = (newToken) => {
 };
 
 const getById = async (id) => {
-  console.log(typeof id);
   const response = await axios.get(`${baseUrl}/${id}`);
   return response.data;
 };

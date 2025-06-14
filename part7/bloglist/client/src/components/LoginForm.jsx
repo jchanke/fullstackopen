@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNotification } from "../contexts/NotificationContext";
-import { useUser } from "../contexts/UserContext";
+import { useCurrentUser } from "../contexts/UserContext";
 
 import loginService from "../services/login";
 
@@ -9,7 +9,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
 
   const notification = useNotification();
-  const { setUser } = useUser();
+  const { setUser } = useCurrentUser();
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
