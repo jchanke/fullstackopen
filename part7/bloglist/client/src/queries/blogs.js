@@ -61,13 +61,13 @@ export const useLikeBlog = () => {
     onMutate: async (blog) => {
       await queryClient.cancelQueries({ queryKey: ["blogs", blog.id] });
       queryClient.setQueryData(["blogs", blog.id], likeBlog);
+      queryClient.setQueryData(["blogs"], (blogs) =>
+        blogs.map((b) => (b.id === blog.id ? likeBlog(blog) : b))
+      );
     },
     mutationFn,
     onSuccess: (newBlog) => {
       queryClient.invalidateQueries({ queryKey: ["blogs", newBlog.id] });
-      queryClient.setQueryData(["blogs"], (blogs) =>
-        blogs.map((blog) => (blog.id === newBlog.id ? newBlog : blog))
-      );
     },
   });
 };
