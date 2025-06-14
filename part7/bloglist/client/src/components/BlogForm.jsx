@@ -1,20 +1,30 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
+import PropTypes from "prop-types";
+import { useCreateBlog } from "../queries/blogs";
+import { useNotification } from "../contexts/NotificationContext";
 
-const BlogForm = ({ tryCreateBlog }) => {
+const BlogForm = ({ toggleVisibility }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
+  const notification = useNotification();
+  const createBlog = useCreateBlog();
+
   const handleCreateBlogSubmit = (event) => {
     event.preventDefault();
-
-    const createBlogSuccess = tryCreateBlog({ title, author, url });
-    if (createBlogSuccess) {
-      setTitle("");
-      setAuthor("");
-      setUrl("");
+    try {
+      createBlog.mutate({ title, author, url });
+    } catch (error) {
+      notification.error("unable to create blog");
+      console.error("unable to create blog:", error.message);
+      return;
     }
+    notification.info(`a new blog ${title} by ${author} added`);
+    toggleVisibility();
+    setTitle("");
+    setAuthor("");
+    setUrl("");
   };
 
   return (
@@ -55,7 +65,7 @@ const BlogForm = ({ tryCreateBlog }) => {
 };
 
 BlogForm.propTypes = {
-  tryCreateBlog: PropTypes.func.isRequired,
+  toggleVisibility: PropTypes.func.isRequired,
 };
 
 export default BlogForm;

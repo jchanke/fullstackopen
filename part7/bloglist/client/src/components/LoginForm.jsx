@@ -1,18 +1,29 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
+import { useNotification } from "../contexts/NotificationContext";
+import { useUser } from "../contexts/UserContext";
 
-const LoginForm = ({ tryLoginUser }) => {
+import loginService from "../services/login";
+
+const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const notification = useNotification();
+  const { setUser } = useUser();
+
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-
-    const loggedInSuccess = tryLoginUser({ username, password });
-    if (loggedInSuccess) {
-      setUsername("");
-      setPassword("");
+    try {
+      const user = await loginService.loginUser({ username, password });
+      setUser(user);
+    } catch (error) {
+      notification.error("wrong username or password");
+      console.error(`invalid username or password: ${error.message}`);
+      return;
     }
+    notification.clear();
+    setUsername("");
+    setPassword("");
   };
 
   return (
@@ -34,10 +45,6 @@ const LoginForm = ({ tryLoginUser }) => {
       <button type="submit">login</button>
     </form>
   );
-};
-
-LoginForm.propTypes = {
-  tryLoginUser: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
