@@ -72,3 +72,12 @@ export const useLikeBlog = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["blogs"] }),
   });
 };
+
+export const useAddComment = (id) => {
+  const queryClient = useQueryClient();
+  const mutationFn = (comment) => blogService.addComment({ id, comment });
+  return useMutation({
+    mutationFn,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["blogs", id] }),
+  });
+};
