@@ -1,17 +1,17 @@
 import { useNotification } from "../contexts/NotificationContext";
+import { Alert } from "./ui/alert";
 
 const Notification = () => {
   const { notification } = useNotification();
+  const status = notification?.isError ? "error" : "success";
 
-  if (!notification) {
-    return null;
-  }
-
-  const notificationStyle = { color: notification.isError ? "red" : "green" };
   return (
-    <div className="notification" style={notificationStyle}>
-      {notification.message}
-    </div>
+    notification && (
+      <>
+        <Alert title={notification.message} status={status} />
+        <br />
+      </>
+    )
   );
 };
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAddComment, useBlog, useLikeBlog } from "../queries/blogs.js";
+import { Button, Heading, Highlight } from "@chakra-ui/react";
 
 const Blog = () => {
   const { id: blogId } = useParams();
@@ -32,17 +33,21 @@ const Blog = () => {
 
   return (
     <div>
-      <h2>
-        {blog.title} <em>by {blog.author}</em>
-      </h2>
+      <Heading>
+        <Highlight>{blog.title}</Highlight>
+        by {blog.author}
+      </Heading>
       <div>
-        <a href={blog.url}>{blog.url}</a>
+        <Link to={blog.url}>{blog.url}</Link>
       </div>
       <div>
-        {blog.likes} likes <button onClick={handleLike}>like</button>
+        {blog.likes} likes{" "}
+        <Button onClick={handleLike} size="sm">
+          like
+        </Button>
       </div>
       <>added by {blog.user.name}</>
-      <h3>comments</h3>
+      <Heading>comments</Heading>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

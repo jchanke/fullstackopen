@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Button, Stack, Table } from "@chakra-ui/react";
 
 import { useBlogs, useDeleteBlog, useLikeBlog } from "../queries/blogs";
 import { useNotification } from "../contexts/NotificationContext";
@@ -12,14 +13,23 @@ const BlogList = () => {
   if (blogsQuery.isError) return `Error: ${blogsQuery.error}`;
   if (blogsQuery.isPending) return "Loading blogs...";
 
-  const blogIds = blogsQuery.data;
+  const blogs = blogsQuery.data;
 
   return (
-    <>
-      {blogIds.map((blog) => (
-        <BlogListing key={blog.id} blog={blog} />
-      ))}
-    </>
+    <Table.Root size="lg">
+      <Table.Header>
+        <Table.Row>
+          <Table.ColumnHeader>Blog</Table.ColumnHeader>
+          <Table.ColumnHeader />
+          <Table.ColumnHeader>Author</Table.ColumnHeader>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {blogs.map((blog) => (
+          <BlogListing key={blog.id} blog={blog} />
+        ))}
+      </Table.Body>
+    </Table.Root>
   );
 };
 
@@ -33,14 +43,6 @@ export const BlogListing = ({ blog }) => {
   const deleteBlog = useDeleteBlog();
 
   const canDeleteBlog = user.username === blog.user.username;
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
 
   const toggleIsExpanded = () => setIsExpanded(!isExpanded);
 
@@ -64,24 +66,32 @@ export const BlogListing = ({ blog }) => {
   };
 
   return (
-    <div style={blogStyle} className="blog">
-      <>
-        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> {blog.author}
+    <Table.Row>
+      <Table.Cell>
+        <Stack>
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          {isExpanded && (
+            <>
+              <div>{blog.url}</div>
+              <div>
+                likes {blog.likes}{" "}
+                <Button onClick={handleLike} size="xs">
+                  like
+                </Button>
+              </div>
+              <div>{blog.user.name}</div>
+              {canDeleteBlog && <button onClick={handleDelete}>remove</button>}
+            </>
+          )}
+        </Stack>
+      </Table.Cell>
+      <Table.Cell>
         <button onClick={toggleIsExpanded}>
           {isExpanded ? "hide" : "view"}
         </button>
-      </>
-      {isExpanded && (
-        <>
-          <div>{blog.url}</div>
-          <div>
-            likes {blog.likes} <button onClick={handleLike}>like</button>
-          </div>
-          <div>{blog.user.name}</div>
-          {canDeleteBlog && <button onClick={handleDelete}>remove</button>}
-        </>
-      )}
-    </div>
+      </Table.Cell>
+      <Table.Cell>{blog.author}</Table.Cell>
+    </Table.Row>
   );
 };
 

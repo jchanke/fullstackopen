@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useNotification } from "../contexts/NotificationContext";
 import { useCurrentUser } from "../contexts/UserContext";
-
 import loginService from "../services/login";
+
+import { Button, Field, Input, Stack } from "@chakra-ui/react";
+import { PasswordInput } from "./ui/password-input";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -10,6 +13,7 @@ const LoginForm = () => {
 
   const notification = useNotification();
   const { setUser } = useCurrentUser();
+  const navigate = useNavigate();
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -24,25 +28,32 @@ const LoginForm = () => {
     notification.clear();
     setUsername("");
     setPassword("");
+    navigate("/");
   };
 
   return (
     <form onSubmit={handleLoginSubmit}>
-      <label htmlFor="username">username</label>
-      <input
-        name="username"
-        value={username}
-        onChange={(event) => setUsername(event.target.value)}
-      />
-      <br />
-      <label htmlFor="password">password</label>
-      <input
-        name="password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      <br />
-      <button type="submit">login</button>
+      <Stack gap="4" align="flex-start" maxWidth="sm">
+        <Field.Root>
+          <Field.Label>username</Field.Label>
+          <Input
+            name="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
+        </Field.Root>
+
+        <Field.Root>
+          <Field.Label>password</Field.Label>
+          <PasswordInput
+            name="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </Field.Root>
+
+        <Button type="submit">login</Button>
+      </Stack>
     </form>
   );
 };

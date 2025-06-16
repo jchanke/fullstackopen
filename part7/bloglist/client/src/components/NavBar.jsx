@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCurrentUser } from "../contexts/UserContext";
+import { Button } from "@chakra-ui/react";
 
 const NavBar = () => {
   const { user, clearUser } = useCurrentUser();
@@ -15,15 +16,13 @@ const NavBar = () => {
       <Link style={padding} to="/users">
         users
       </Link>
-      {user ? (
+      {user && (
         <>
-          {user.name} logged in <button onClick={clearUser}>logout</button>
+          {user.name} logged in{" "}
+          <Button onClick={clearUser} size="sm" variant="subtle">
+            logout
+          </Button>
         </>
-      ) : (
-        <Link style={padding} to="/login">
-          {" "}
-          login{" "}
-        </Link>
       )}
     </div>
   );

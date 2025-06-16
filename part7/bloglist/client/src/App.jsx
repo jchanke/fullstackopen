@@ -10,6 +10,7 @@ import User from "./components/User.jsx";
 import Users from "./components/Users";
 
 import { useCurrentUser, USER } from "./contexts/UserContext";
+import { Heading, Stack } from "@chakra-ui/react";
 
 const App = () => {
   const { user, setUser } = useCurrentUser();
@@ -24,19 +25,19 @@ const App = () => {
 
   if (!user) {
     return (
-      <div>
+      <Stack>
         <NavBar />
         <h2>log in to application</h2>
         <Notification />
         <LoginForm />
-      </div>
+      </Stack>
     );
   }
 
   return (
-    <>
+    <Stack>
       <NavBar />
-      <h2>blog app</h2>
+      <Heading>blog app</Heading>
       <Notification />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -44,7 +45,7 @@ const App = () => {
         <Route path="/users/:id" element={<User />} />
         <Route path="/blogs/:id" element={<Blog />} />
       </Routes>
-    </>
+    </Stack>
   );
 };
 

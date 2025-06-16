@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useCreateBlog } from "../queries/blogs";
 import { useNotification } from "../contexts/NotificationContext";
+import { Button, Field, Fieldset, Input, Stack } from "@chakra-ui/react";
 
 const BlogForm = ({ toggleVisibility }) => {
   const [title, setTitle] = useState("");
@@ -29,36 +30,46 @@ const BlogForm = ({ toggleVisibility }) => {
 
   return (
     <div>
-      <h2>create new</h2>
       <form onSubmit={handleCreateBlogSubmit}>
-        <div>
-          title:
-          <input
-            name="title"
-            id="title-input"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-          />
-        </div>
-        <div>
-          author:
-          <input
-            name="author"
-            id="author-input"
-            value={author}
-            onChange={(event) => setAuthor(event.target.value)}
-          />
-        </div>
-        <div>
-          url:
-          <input
-            name="url"
-            id="url-input"
-            value={url}
-            onChange={(event) => setUrl(event.target.value)}
-          />
-        </div>
-        <button type="submit">create</button>
+        <Fieldset.Root size="lg" maxWidth="md">
+          <Stack>
+            <Fieldset.Legend>create new blog</Fieldset.Legend>
+            <Fieldset.HelperText>enter new blog details</Fieldset.HelperText>
+          </Stack>
+
+          <Fieldset.Content>
+            <Stack gap="4" align="flex-start" maxWidth="sm">
+              <Field.Root>
+                <Field.Label>title</Field.Label>
+                <Input
+                  name="title"
+                  id="title-input"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>author</Field.Label>
+                <Input
+                  name="author"
+                  id="author-input"
+                  value={author}
+                  onChange={(event) => setAuthor(event.target.value)}
+                />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>url</Field.Label>
+                <Input
+                  name="url"
+                  id="url-input"
+                  value={url}
+                  onChange={(event) => setUrl(event.target.value)}
+                />
+              </Field.Root>
+              <Button type="submit">create</Button>
+            </Stack>
+          </Fieldset.Content>
+        </Fieldset.Root>
       </form>
     </div>
   );
