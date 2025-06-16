@@ -49,9 +49,11 @@ blogsRouter.put("/:id", middleware.userExtractor, async (request, response) => {
   const id = request.params.id;
   const existingBlog = await Blog.findById(id);
   if (!existingBlog) {
-    return response
-      .status(404)
-      .json({ error: `blog with id ${request.body.id} not found` });
+    return response.status(404).json({ error: `blog with id ${id} not found` });
+  } else if (request.body.id !== id) {
+    return response.status(404).json({
+      error: `update blog id ${request.body.id} doesn't match request id`,
+    });
   }
 
   const updatedBlog = request.body;
@@ -59,6 +61,19 @@ blogsRouter.put("/:id", middleware.userExtractor, async (request, response) => {
     "user",
     { username: 1, name: 1 },
   );
+  response.status(201).json(returnedBlog);
+});
+
+blogsRouter.post("/:id/comments", async (request, response) => {
+  const id = request.params.id;
+  const blog = await Blog.findById(id);
+  if (!blog) {
+    return response.status(404).json({ error: `blog with id ${id} not found` });
+  }
+  const newComment = request.body.comment;
+  blog.comments = [...blog.comments, newComment];
+  await blog.save();
+  const returnedBlog = await blog.populate("user", { username: 1, name: 1 });
   response.status(201).json(returnedBlog);
 });
 

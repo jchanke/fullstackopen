@@ -1,0 +1,25 @@
+// add a new comment to an existing blog
+###
+POST http://localhost:3003/api/blogs/683b836f04dba51bba28a712/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "comment": "awesome article"
+}
+
+// adding a comment to a blog with bad id doesn't work
+###
+POST http://localhost:3003/api/blogs/bad_id/comments
+Content-Type: application/json
+
+{
+  "comment": "this should return an error: 'malformatted id'"
+}
+
+###
+POST http://localhost:3003/api/blogs/783b836f04dba51bba28a712/comments
+Content-Type: application/json
+
+{
+  "comment": "this should return an error: 'blog with id not found"
+}
