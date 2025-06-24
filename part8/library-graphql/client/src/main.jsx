@@ -21,11 +21,11 @@ const VITE_GRAPHQL_URL = import.meta.env.VITE_GRAPHQL_URL;
 const PRODUCTION = import.meta.env.PROD;
 
 const VITE_GRAPHQL_URI_HTTP = PRODUCTION
-  ? `https://${VITE_GRAPHQL_URL}$`
+  ? `https://${VITE_GRAPHQL_URL}`
   : "http://localhost:4000/graphql";
 
 const VITE_GRAPHQL_URL_WS = PRODUCTION
-  ? `wss://${VITE_GRAPHQL_URL}$`
+  ? `wss://${VITE_GRAPHQL_URL}`
   : "ws://localhost:4000/graphql";
 
 const authLink = setContext(async (request, previousContext) => {
