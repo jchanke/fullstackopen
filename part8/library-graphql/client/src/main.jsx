@@ -19,8 +19,6 @@ import { USER_TOKEN } from "./queries.jsx";
 
 const VITE_GRAPHQL_URL = import.meta.env.VITE_GRAPHQL_URL;
 const PRODUCTION = import.meta.env.PROD;
-console.log("PRODUCTION", PRODUCTION);
-console.log("VITE_GRAPHQL_URL", VITE_GRAPHQL_URL);
 
 const VITE_GRAPHQL_URI_HTTP = PRODUCTION
   ? `https://${VITE_GRAPHQL_URL}$`
