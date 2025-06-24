@@ -17,6 +17,16 @@ import App from "./App.jsx";
 import ContextProvider from "./contexts/ContextProvider.jsx";
 import { USER_TOKEN } from "./queries.jsx";
 
+const VITE_GRAPHQL_URI_HTTP =
+  import.meta.env.NODE_ENV === "production"
+    ? `https://${import.meta.env.VITE_GRAPHQL_URL}$`
+    : "http://localhost:4000/graphql";
+
+const VITE_GRAPHQL_URL_WS =
+  import.meta.env.NODE_ENV === "production"
+    ? `ws://${import.meta.env.VITE_GRAPHQL_URL}$`
+    : "ws://localhost:4000/graphql";
+
 const authLink = setContext(async (request, previousContext) => {
   const token = window.localStorage.getItem(USER_TOKEN);
   const { headers } = previousContext;
@@ -28,11 +38,9 @@ const authLink = setContext(async (request, previousContext) => {
   };
 });
 
-const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
+const httpLink = new HttpLink({ uri: VITE_GRAPHQL_URI_HTTP });
 
-const wsLink = new GraphQLWsLink(
-  createClient({ url: "ws://localhost:4000/graphql" })
-);
+const wsLink = new GraphQLWsLink(createClient({ url: VITE_GRAPHQL_URL_WS }));
 
 const splitLink = split(
   ({ query }) => {
