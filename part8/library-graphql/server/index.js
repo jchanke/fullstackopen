@@ -76,7 +76,11 @@ const start = async () => {
   await server.start();
 
   // middleware
-  app.use(cors());
+  app.use(
+    cors({
+      origin: ["https://fullstackopen-library.onrender.com"],
+    })
+  );
   app.use(express.json());
 
   // apollo server
