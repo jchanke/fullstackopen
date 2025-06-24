@@ -1,27 +1,38 @@
-import { Link, Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
+
 import Authors from "./components/Authors";
 import Books from "./components/Books";
+import BooksRecommended from "./components/BooksRecommended";
 import AddBookForm from "./components/AddBookForm";
+import LoginForm from "./components/LoginForm";
+import NavBar from "./components/NavBar";
+import Notification from "./components/Notification";
+
+import { useUser } from "./contexts/UserContext";
 
 const App = () => {
-  const navBarStyle = { padding: 5 };
+  const { user } = useUser();
+
   return (
     <>
-      <div>
-        <Link style={navBarStyle} to="/authors">
-          authors
-        </Link>
-        <Link style={navBarStyle} to="/">
-          books
-        </Link>
-        <Link style={navBarStyle} to="/addbook">
-          add book
-        </Link>
-      </div>
+      <NavBar />
+      <Notification />
       <Routes>
-        <Route path="/authors" element={<Authors />} />
         <Route path="/" element={<Books />} />
-        <Route path="/addbook" element={<AddBookForm />} />
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/" replace /> : <LoginForm />}
+        />
+        <Route path="/authors" element={<Authors />} />
+        <Route
+          path="/addbook"
+          element={user ? <AddBookForm /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/recommended"
+          element={user ? <BooksRecommended /> : <Navigate to="/" replace />}
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );
