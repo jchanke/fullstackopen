@@ -13,7 +13,10 @@ export const UserContextProvider = (props) => {
   });
 
   if (query.loading) return "loading user...";
-  if (query.error) return JSON.stringify(query.error);
+  if (query.error) {
+    console.error(query.error);
+    return JSON.stringify(query.error);
+  }
 
   const user = query.data?.me;
 

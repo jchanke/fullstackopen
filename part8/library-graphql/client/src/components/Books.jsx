@@ -21,7 +21,10 @@ const Books = () => {
   });
 
   if (result.loading) return "loading...";
-  if (result.error) return JSON.stringify(result.error);
+  if (result.error) {
+    console.error(result.error);
+    return JSON.stringify(result.error);
+  }
 
   const books = result.data.allBooks;
 
