@@ -17,15 +17,18 @@ import App from "./App.jsx";
 import ContextProvider from "./contexts/ContextProvider.jsx";
 import { USER_TOKEN } from "./queries.jsx";
 
-const VITE_GRAPHQL_URI_HTTP =
-  import.meta.env.NODE_ENV === "production"
-    ? `https://${import.meta.env.VITE_GRAPHQL_URL}$`
-    : "http://localhost:4000/graphql";
+const VITE_GRAPHQL_URL = import.meta.env.VITE_GRAPHQL_URL;
+const PRODUCTION = import.meta.env.PROD;
+console.log("PRODUCTION", PRODUCTION);
+console.log("VITE_GRAPHQL_URL", VITE_GRAPHQL_URL);
 
-const VITE_GRAPHQL_URL_WS =
-  import.meta.env.NODE_ENV === "production"
-    ? `ws://${import.meta.env.VITE_GRAPHQL_URL}$`
-    : "ws://localhost:4000/graphql";
+const VITE_GRAPHQL_URI_HTTP = PRODUCTION
+  ? `https://${VITE_GRAPHQL_URL}$`
+  : "http://localhost:4000/graphql";
+
+const VITE_GRAPHQL_URL_WS = PRODUCTION
+  ? `wss://${VITE_GRAPHQL_URL}$`
+  : "ws://localhost:4000/graphql";
 
 const authLink = setContext(async (request, previousContext) => {
   const token = window.localStorage.getItem(USER_TOKEN);

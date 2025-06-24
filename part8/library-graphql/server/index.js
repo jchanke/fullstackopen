@@ -15,9 +15,6 @@ const { useServer } = require("graphql-ws/use/ws");
 const {
   ApolloServerPluginDrainHttpServer,
 } = require("@apollo/server/plugin/drainHttpServer");
-const {
-  ApolloServerPluginLandingPageDisabled,
-} = require("@apollo/server/plugin/disabled");
 
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
@@ -67,21 +64,15 @@ const start = async () => {
           };
         },
       },
-
-      // disable Apollo landing page
-      ApolloServerPluginLandingPageDisabled(),
     ],
   });
 
   await server.start();
 
   // middleware
-  app.use(
-    cors({
-      origin: ["https://fullstackopen-library.onrender.com"],
-    })
-  );
+  app.use(cors());
   app.use(express.json());
+  app.use(express.static("dist"));
 
   // apollo server
   app.use(
@@ -112,11 +103,9 @@ const start = async () => {
     })
   );
 
-  app.use(express.static("dist"));
-
   // other endpoints should be routed to "/" for React Router
-  app.use((request, response) => {
-    return response.sendFile(path.join(__dirname, "dist", "index.html"));
+  app.use("/*catchall", (request, response) => {
+    response.sendFile(path.join(__dirname, "dist", "index.html"));
   });
 
   const PORT = 4000;
