@@ -109,9 +109,7 @@ const start = async () => {
   });
 
   const PORT = 4000;
-  await httpServer.listen({ port: PORT }, () =>
-    console.log(`server ready at http://localhost:${PORT}`)
-  );
+  await httpServer.listen({ port: PORT }, () => console.log("server ready"));
 };
 
 start();

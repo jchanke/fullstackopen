@@ -1,17 +1,31 @@
-import { useMutation } from "@apollo/client";
 import Select from "react-select";
+import { useMutation } from "@apollo/client";
 import { useField } from "../hooks";
+import { useUser } from "../contexts/UserContext";
+import { useNotification } from "../contexts/NotificationContext";
 import { EDIT_AUTHOR, ALL_AUTHORS } from "../queries";
 
 const AuthorBirthYearForm = ({ authors }) => {
+  const { user } = useUser();
+  const notification = useNotification();
+
   const name = useField({ name: "name" });
   const born = useField({ name: "born" });
 
-  const options = authors.map((a) => ({ value: a.name, label: a.name }));
-
   const [updateBirthYear] = useMutation(EDIT_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }],
+    onError: (error) => {
+      console.error(error);
+      notification.error(error.message);
+    },
   });
+
+  if (!user) {
+    console.log("no user");
+    return;
+  }
+
+  const options = authors.map((a) => ({ value: a.name, label: a.name }));
 
   const handleSelect = ({ value }) => {
     name.setValue(value);
