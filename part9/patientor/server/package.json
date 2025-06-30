@@ -1,0 +1,35 @@
+{
+  "name": "patientor",
+  "version": "0.0.1",
+  "description": "",
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "build/index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "dev": "ts-node-dev src/index.ts",
+    "start": "node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@stylistic/eslint-plugin": "^5.0.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/express": "^5.0.3",
+    "eslint": "^9.29.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.0",
+    "zod": "^3.25.67"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.1.2",
+    "@mui/material": "^7.1.2",
+    "express": "^5.1.0",
+    "uuid": "^11.1.0"
+  }
+}
