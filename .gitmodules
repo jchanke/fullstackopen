@@ -1,3 +1,6 @@
 [submodule "part10/rate-repository-app"]
 	path = part10/rate-repository-app
 	url = https://github.com/jchanke/rate-repository-app.git
+[submodule "part11/pokedex"]
+	path = part11/pokedex
+	url = git@github.com:jchanke/full-stack-open-pokedex.git
