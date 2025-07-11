@@ -7,3 +7,6 @@
 [submodule "part12/containers"]
 	path = part12/containers
 	url = git@github.com:jchanke/full-stack-open-containers.git
+[submodule "part12/containers-applications"]
+	path = part12/containers-applications
+	url = git@github.com:fullstack-hy2020/part12-containers-applications.git
