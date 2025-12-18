@@ -4,13 +4,13 @@ set -o errexit
 
 # Build backend
 cd server
-npm install --save-dev
+npm install --include=dev
 npm run tsc
 cd ..
 
 # Build frontend
 cd client
-npm install --save-dev
+npm install --include=dev
 npm run build
 cd ..
 
