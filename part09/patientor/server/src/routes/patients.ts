@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import z from "zod/v4";
+import z from "zod";
 import patientService from "../services/patientService";
 import { NewPatientSchema } from "../types";
 

@@ -22,12 +22,6 @@ app.get("/api/ping", (_req, res) => {
   res.send("pong");
 });
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get("*", (_req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
-});
-
 app.listen(PORT, () => {
   console.log(`server running at port ${PORT}`);
 });
