@@ -5,7 +5,7 @@ import patientService from "../../services/patients";
 import AddPatientModal from "../AddPatientModal";
 import HealthRatingBar from "../HealthRatingBar";
 
-import { Patient } from "@backend/src/types";
+import { Patient, HealthCheckEntry } from "@backend/src/types";
 
 import {
   Box,
@@ -72,7 +72,7 @@ const PatientListPage = () => {
                   showText={false}
                   rating={
                     patient.entries
-                      .filter((e) => e.type === "HealthCheck")
+                      .filter((e): e is HealthCheckEntry => e.type === "HealthCheck")
                       .at(-1)?.healthCheckRating
                   }
                 />

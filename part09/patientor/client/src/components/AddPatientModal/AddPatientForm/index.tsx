@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAddPatientForm } from "./form";
+import axios from "axios";
 import patientService from "../../../services/patients";
+import { useAddPatientForm } from "./form";
 
 import { Entry, Gender, NewPatientSchema } from "@backend/src/types";
 
-import { Grid, Button, Stack } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 
 interface Props {
   onCancel: () => void;
@@ -50,7 +50,7 @@ const AddPatientForm = ({ onCancel, setError }: Props) => {
       occupation: "",
       dateOfBirth: "", // yyyy-mm-dd
       ssn: "",
-      gender: "",
+      gender: "" as Gender,
       entries: [] as Entry[],
     },
     onSubmit: ({ value: newPatient }) => {

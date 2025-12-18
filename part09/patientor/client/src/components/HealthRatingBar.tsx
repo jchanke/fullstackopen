@@ -1,5 +1,5 @@
-import { Rating } from "@mui/material";
 import { Favorite } from "@mui/icons-material";
+import { Rating } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
 
@@ -27,7 +27,7 @@ const HEALTHBAR_TEXTS = [
 const HealthRatingBar = ({ rating, showText }: BarProps) => {
   return (
     <div className="health-bar">
-      {rating !== null && (
+      {rating !== undefined && (
         <StyledRating
           readOnly
           value={4 - rating}
